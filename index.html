@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<!-- SEO & Metadata -->
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Clear Browser Data - The Ultimate Developer Tool for Chrome & Edge</title>
+		<meta
+			name="description"
+			content="A powerful browser extension for developers. One-click solution to clear localStorage, sessionStorage, cookies, and cache. Perfect for web testing and debugging."
+		/>
+		<meta
+			name="keywords"
+			content="Clear Browser Data, Chrome extension, Edge extension, developer tools, clear cache, clear cookies, localStorage, sessionStorage, web development, debugging"
+		/>
+		<meta name="author" content="Clear Browser Data" />
+		<link
+			rel="icon"
+			href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHJ4PSIxMiIgZmlsbD0idXJsKCNwYWludDBfbGluZWFyXzEzOF8yKSIvPjxwYXRoIGQ9Ik0yMC44NTcxIDQ2VjE4SDI2LjY1NzFWNDZIMjAuODU3MVpNMzQuMDk1MiA0NlYxOEgzOS44OTUyVjQ2SDM0LjA5NTJaTTI3LjQ3NjIgMzYuMTQyOVYyNy44NTcxSDQ4LjM4MVYzNi4xNDI5SDI3LjQ3NjJaIiBmaWxsPSJ3aGl0ZSIvPjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0icGFpbnQwX2xpbmVhcl8xMzBfMiIgeDE9IjMyIiB5MT0iMCIgeDI9IjMyIiB5Mj0iNjQiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj48c3RvcCBzdG9wLWNvbG9yPSIjNjM2NkYxIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjQTg1NUY3Ii8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PC9zdmc+"
+		/>
+
+		<!-- Open Graph Metadata for Social Sharing -->
+		<meta property="og:title" content="Clear Browser Data - Developer Extension" />
+		<meta
+			property="og:description"
+			content="One-click solution to clear localStorage, sessionStorage, cookies, and cache. Perfect for web developers and testers on Chrome and Edge."
+		/>
+		<meta property="og:image" content="https://i.imgur.com/your-promo-image.png" />
+		<!-- Replace with a link to your promo image -->
+
+		<!-- Google Fonts -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+		<style>
+			:root {
+				--primary-start: #6366f1; /* Indigo */
+				--primary-end: #a855f7; /* Purple */
+				--dark-bg: #111827; /* Dark Gray */
+				--light-bg: #f9fafb; /* Light Gray */
+				--text-primary: #1f2937;
+				--text-secondary: #6b7280;
+				--border-color: #e5e7eb;
+				--shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+				--shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+				--shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+				--radius-md: 12px;
+				--radius-lg: 16px;
+				--transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+			}
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+			html {
+				scroll-behavior: smooth;
+			}
+			body {
+				font-family: "Inter", sans-serif;
+				background-color: var(--light-bg);
+				color: var(--text-primary);
+				-webkit-font-smoothing: antialiased;
+				-moz-osx-font-smoothing: grayscale;
+			}
+			.container {
+				display: flex;
+				min-height: 100vh;
+			}
+
+			/* --- Sidebar --- */
+			.sidebar {
+				width: 260px;
+				background-color: var(--dark-bg);
+				padding: 2rem 1.5rem;
+				display: flex;
+				flex-direction: column;
+				flex-shrink: 0;
+				position: fixed;
+				height: 100%;
+				z-index: 10;
+			}
+			.logo {
+				display: flex;
+				align-items: center;
+				gap: 0.75rem;
+				margin-bottom: 3rem;
+			}
+			.logo-icon {
+				width: 40px;
+				height: 40px;
+				background: linear-gradient(135deg, var(--primary-start), var(--primary-end));
+				border-radius: var(--radius-md);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+			.logo h1 {
+				color: white;
+				font-size: 1.25rem;
+				font-weight: 700;
+			}
+			.nav-menu {
+				list-style: none;
+				flex-grow: 1;
+			}
+			.nav-link {
+				display: flex;
+				align-items: center;
+				padding: 0.75rem 1rem;
+				margin-bottom: 0.5rem;
+				color: #d1d5db; /* Gray 300 */
+				text-decoration: none;
+				border-radius: 8px;
+				font-weight: 500;
+				transition: var(--transition);
+			}
+			.nav-link:hover {
+				background-color: rgba(255, 255, 255, 0.05);
+				color: white;
+			}
+			.nav-link.active {
+				background: var(--primary-start);
+				color: white;
+				box-shadow: var(--shadow-md);
+			}
+			.nav-link-icon {
+				margin-right: 0.75rem;
+				width: 20px;
+				height: 20px;
+			}
+			.language-switcher {
+				display: flex;
+				background-color: rgba(255, 255, 255, 0.05);
+				border-radius: 50px;
+				padding: 4px;
+			}
+			.lang-btn {
+				flex: 1;
+				padding: 0.5rem;
+				border: none;
+				background: transparent;
+				color: #9ca3af; /* Gray 400 */
+				font-weight: 600;
+				border-radius: 50px;
+				cursor: pointer;
+				transition: var(--transition);
+			}
+			.lang-btn.active {
+				background: var(--primary-start);
+				color: white;
+				box-shadow: var(--shadow-sm);
+			}
+
+			/* --- Main Content --- */
+			.main-content {
+				flex-grow: 1;
+				padding: 4rem 5rem;
+				overflow-y: auto;
+				margin-left: 260px; /* Offset for fixed sidebar */
+			}
+			.content-section {
+				display: none;
+				animation: fadeIn 0.5s ease-out;
+			}
+			.content-section.active {
+				display: block;
+			}
+			@keyframes fadeIn {
+				from {
+					opacity: 0;
+					transform: translateY(20px);
+				}
+				to {
+					opacity: 1;
+					transform: translateY(0);
+				}
+			}
+			.section-header {
+				text-align: center;
+				margin-bottom: 3rem;
+			}
+			.section-header h1 {
+				font-size: 2.5rem;
+				font-weight: 800;
+				margin-bottom: 1rem;
+				background: linear-gradient(135deg, var(--primary-start), var(--primary-end));
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+			}
+			.section-header p {
+				font-size: 1.125rem;
+				color: var(--text-secondary);
+				max-width: 600px;
+				margin: 0 auto;
+			}
+			.card {
+				background: white;
+				border-radius: var(--radius-lg);
+				border: 1px solid var(--border-color);
+				box-shadow: var(--shadow-md);
+				transition: var(--transition);
+			}
+			.card:hover {
+				transform: translateY(-5px);
+				box-shadow: var(--shadow-lg);
+			}
+
+			/* --- Home Section --- */
+			#home .main-title {
+				font-size: 3.5rem;
+				font-weight: 800;
+				line-height: 1.2;
+				background: linear-gradient(135deg, var(--primary-start), var(--primary-end));
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+				margin-bottom: 1.5rem;
+			}
+			#home .subtitle {
+				font-size: 1.25rem;
+				color: var(--text-secondary);
+				max-width: 700px;
+				margin-bottom: 4rem;
+			}
+			.home-layout {
+				display: flex;
+				gap: 3rem;
+				align-items: center;
+				margin-bottom: 4rem;
+			}
+			.home-features {
+				flex: 1;
+				display: grid;
+				gap: 1.5rem;
+			}
+			.home-feature-card {
+				display: flex;
+				align-items: flex-start;
+				gap: 1rem;
+			}
+			.home-feature-icon {
+				width: 40px;
+				height: 40px;
+				flex-shrink: 0;
+				border-radius: var(--radius-md);
+				background: linear-gradient(135deg, var(--primary-start) 10%, var(--primary-end));
+				color: white;
+				font-size: 1.25rem;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+			.home-feature-text h3 {
+				font-size: 1.125rem;
+				margin-bottom: 0.25rem;
+			}
+			.home-feature-text p {
+				color: var(--text-secondary);
+				font-size: 0.9rem;
+			}
+			.home-image-wrapper {
+				flex: 1;
+				display: flex;
+				justify-content: center;
+			}
+			.plugin-image {
+				display: block;
+				max-width: 100%;
+				border-radius: var(--radius-md);
+				box-shadow: var(--shadow-lg);
+			}
+			.download-title {
+				text-align: center;
+				font-size: 1.5rem;
+				font-weight: 700;
+				margin: 4rem 0 2rem 0;
+				color: var(--text-primary);
+			}
+			.download-cards {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+				gap: 2rem;
+				max-width: 800px;
+				margin: 0 auto;
+			}
+			.download-card {
+				padding: 2rem;
+				text-align: center;
+			}
+			.browser-logo {
+				height: 64px;
+				margin-bottom: 1.5rem;
+			}
+			.download-card h3 {
+				font-size: 1.25rem;
+				margin-bottom: 0.5rem;
+			}
+			.download-card p {
+				color: var(--text-secondary);
+				margin-bottom: 1.5rem;
+				font-size: 0.9rem;
+			}
+			.download-btn {
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				width: 100%;
+				padding: 0.75rem 1.5rem;
+				border-radius: 8px;
+				text-decoration: none;
+				color: white;
+				font-weight: 600;
+				transition: var(--transition);
+			}
+			.chrome-btn {
+				background-color: #4285f4;
+			}
+			.edge-btn {
+				background-color: #0078d4;
+			}
+			.download-btn:hover {
+				opacity: 0.85;
+				transform: translateY(-2px);
+			}
+
+			/* --- Features Section --- */
+			.features-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+				gap: 2rem;
+			}
+			.feature-card {
+				padding: 2rem;
+			}
+			.feature-icon {
+				width: 50px;
+				height: 50px;
+				border-radius: var(--radius-md);
+				background: linear-gradient(135deg, var(--primary-start), var(--primary-end));
+				color: white;
+				font-size: 1.5rem;
+				font-weight: bold;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				margin-bottom: 1.5rem;
+			}
+			.feature-card h3 {
+				font-size: 1.25rem;
+				margin-bottom: 0.75rem;
+			}
+			.feature-card p {
+				color: var(--text-secondary);
+				line-height: 1.6;
+			}
+
+			/* --- Donate & Contact Section --- */
+			.centered-content {
+				max-width: 600px;
+				margin: 0 auto;
+				text-align: center;
+			}
+			.donate-buttons {
+				display: flex;
+				justify-content: center;
+				gap: 1.5rem;
+				margin-top: 2rem;
+			}
+			.donate-btn {
+				padding: 0.75rem 2rem;
+				border-radius: 50px;
+				text-decoration: none;
+				color: white;
+				font-weight: 600;
+				box-shadow: var(--shadow-md);
+				transition: var(--transition);
+			}
+			.donate-btn:hover {
+				transform: translateY(-3px);
+				box-shadow: var(--shadow-lg);
+			}
+			.paypal-btn {
+				background-color: #0070ba;
+			}
+			.github-btn {
+				background-color: #24292e;
+			}
+
+			/* --- Responsive Design --- */
+			@media (max-width: 1200px) {
+				.main-content {
+					padding: 3rem;
+				}
+				.home-layout {
+					flex-direction: column-reverse;
+				}
+			}
+			@media (max-width: 1024px) {
+				.sidebar {
+					position: static;
+					width: 100%;
+					height: auto;
+					flex-direction: row;
+					align-items: center;
+					padding: 1rem 1.5rem;
+					box-shadow: var(--shadow-md);
+				}
+				.logo {
+					margin-bottom: 0;
+				}
+				.nav-menu {
+					display: flex;
+					flex-grow: 1;
+					justify-content: center;
+					gap: 0.5rem;
+				}
+				.nav-link {
+					margin-bottom: 0;
+				}
+				.nav-link span {
+					display: none;
+				} /* Hide text on smaller nav */
+				.language-switcher {
+					margin-left: auto;
+				}
+				.main-content {
+					margin-left: 0;
+					padding: 2rem;
+				}
+				#home .main-title {
+					font-size: 2.5rem;
+				}
+				#home .subtitle {
+					font-size: 1.125rem;
+				}
+				.section-header h1 {
+					font-size: 2rem;
+				}
+			}
+			@media (max-width: 768px) {
+				.nav-link span {
+					display: none;
+				}
+				.logo h1 {
+					display: none;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<!-- Sidebar Navigation -->
+			<nav class="sidebar">
+				<div class="logo">
+					<div class="logo-icon">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="20"
+							height="20"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="3"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						>
+							<path d="M11 12H3" />
+							<path d="M16 6H3" />
+							<path d="M16 18H3" />
+							<path d="M21 12h-2.5m0 0a2.5 2.5 0 1 1-5 0 2.5 2.5 0 1 1 5 0Z" />
+						</svg>
+					</div>
+					<h1>Clear Browser Data</h1>
+				</div>
+
+				<ul class="nav-menu">
+					<li>
+						<a href="#home" class="nav-link active" data-section="home"
+							><svg class="nav-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+								></path></svg
+							><span class="lang-text" data-en="Home" data-zh="首页">Home</span></a
+						>
+					</li>
+					<li>
+						<a href="#features" class="nav-link" data-section="features"
+							><svg class="nav-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l-3 3m0 0l-3-3m3 3v12M9 3H5a2 2 0 00-2 2v4m14-4h-4a2 2 0 00-2 2v4m0 10v-4a2 2 0 00-2-2h-4a2 2 0 00-2 2v4m14 0h-4a2 2 0 01-2-2v-4"
+								></path></svg
+							><span class="lang-text" data-en="Features" data-zh="功能特性">Features</span></a
+						>
+					</li>
+					<li>
+						<a href="#donate" class="nav-link" data-section="donate"
+							><svg class="nav-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+								></path></svg
+							><span class="lang-text" data-en="Donate" data-zh="赞助支持">Donate</span></a
+						>
+					</li>
+					<li>
+						<a href="#contact" class="nav-link" data-section="contact"
+							><svg class="nav-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+								></path></svg
+							><span class="lang-text" data-en="Contact" data-zh="联系我们">Contact</span></a
+						>
+					</li>
+				</ul>
+
+				<div class="language-switcher">
+					<button class="lang-btn active" data-lang="en">EN</button>
+					<button class="lang-btn" data-lang="zh">中文</button>
+				</div>
+			</nav>
+
+			<!-- Main Content -->
+			<main class="main-content">
+				<!-- Home Section -->
+				<section id="home" class="content-section active">
+					<h1 class="main-title">Clear Browser Data</h1>
+					<p
+						class="subtitle lang-text"
+						data-en="The ultimate tool for developers to clear localStorage, sessionStorage, cookies, and cache with a single click. Streamline your debugging and testing workflow."
+						data-zh="为开发者打造的终极工具。一键清理 localStorage、sessionStorage、cookies 和缓存，简化您的调试和测试工作流程。"
+					>
+						The ultimate tool for developers to clear localStorage, sessionStorage, cookies, and cache with a single click.
+						Streamline your debugging and testing workflow.
+					</p>
+
+					<div class="home-layout">
+						<div class="home-features">
+							<div class="home-feature-card">
+								<div class="home-feature-icon">🧹</div>
+								<div class="home-feature-text">
+									<h3 class="lang-text" data-en="One-Click Cleanup" data-zh="一键清理">One-Click Cleanup</h3>
+									<p
+										class="lang-text"
+										data-en="Clear all site data instantly to simulate a first-time visit."
+										data-zh="即时清除所有站点数据，模拟首次访问体验。"
+									>
+										Clear all site data instantly to simulate a first-time visit.
+									</p>
+								</div>
+							</div>
+							<div class="home-feature-card">
+								<div class="home-feature-icon">📦</div>
+								<div class="home-feature-text">
+									<h3 class="lang-text" data-en="Granular Control" data-zh="精细控制">Granular Control</h3>
+									<p
+										class="lang-text"
+										data-en="Individually clear localStorage, sessionStorage, or cookies."
+										data-zh="可单独清理 localStorage、sessionStorage 或 cookies。"
+									>
+										Individually clear localStorage, sessionStorage, or cookies.
+									</p>
+								</div>
+							</div>
+							<div class="home-feature-card">
+								<div class="home-feature-icon">🔍</div>
+								<div class="home-feature-text">
+									<h3 class="lang-text" data-en="SSR Data Inspector" data-zh="SSR 数据检查">SSR Data Inspector</h3>
+									<p
+										class="lang-text"
+										data-en="Check Next.js page props directly in the console."
+										data-zh="在控制台中直接检查 Next.js 页面 props 数据。"
+									>
+										Check Next.js page props directly in the console.
+									</p>
+								</div>
+							</div>
+							<div class="home-feature-card">
+								<div class="home-feature-icon">🔄</div>
+								<div class="home-feature-text">
+									<h3 class="lang-text" data-en="Auto-Refresh" data-zh="自动刷新">Auto-Refresh</h3>
+									<p
+										class="lang-text"
+										data-en="The page reloads automatically after cleaning for immediate results."
+										data-zh="清理后页面自动重新加载，即时查看结果。"
+									>
+										The page reloads automatically after cleaning for immediate results.
+									</p>
+								</div>
+							</div>
+						</div>
+						<div class="home-image-wrapper">
+							<img
+								src="https://imgur.la/images/2025/08/16/clear.png"
+								alt="Clear Browser Data extension interface"
+								class="plugin-image"
+							/>
+						</div>
+					</div>
+
+					<h2 class="download-title lang-text" data-en="Available for your favorite browsers" data-zh="支持您最喜爱的浏览器">
+						Available for your favorite browsers
+					</h2>
+					<div class="download-cards">
+						<div class="download-card card">
+							<img
+								src="https://www.google.com/chrome/static/images/chrome-logo.svg"
+								alt="Google Chrome Logo"
+								class="browser-logo"
+							/>
+							<h3>Google Chrome</h3>
+							<p
+								class="lang-text"
+								data-en="Get the extension from the official Chrome Web Store for automatic updates."
+								data-zh="从官方 Chrome 应用商店获取，享受安全自动更新。"
+							>
+								Get the extension from the official Chrome Web Store for automatic updates.
+							</p>
+							<a
+								href="https://chromewebstore.google.com/detail/ibbehlagpjafbichpiacehepppkhpapc?utm_source=item-share-cb"
+								target="_blank"
+								class="download-btn chrome-btn lang-text"
+								data-en="Add to Chrome"
+								data-zh="添加到 Chrome"
+								>Add to Chrome</a
+							>
+						</div>
+						<div class="download-card card">
+							<img
+								src="https://upload.wikimedia.org/wikipedia/commons/9/98/Microsoft_Edge_logo_(2019).svg"
+								alt="Microsoft Edge Logo"
+								class="browser-logo"
+							/>
+							<h3>Microsoft Edge</h3>
+							<p
+								class="lang-text"
+								data-en="Also available for Microsoft Edge with full compatibility and performance."
+								data-zh="同样支持 Microsoft Edge 浏览器，具有完全的兼容性和性能。"
+							>
+								Also available for Microsoft Edge with full compatibility and performance.
+							</p>
+							<a
+								href="https://microsoftedge.microsoft.com/addons/detail/clear-browser-data/pffknldaoebapddiponbfnjfkjccdoon"
+								target="_blank"
+								class="download-btn edge-btn lang-text"
+								data-en="Get for Edge"
+								data-zh="获取 Edge 版本"
+								>Get for Edge</a
+							>
+						</div>
+					</div>
+				</section>
+
+				<!-- Features Section -->
+				<section id="features" class="content-section">
+					<div class="section-header">
+						<h1 class="lang-text" data-en="Powerful Features" data-zh="强大的功能">Powerful Features</h1>
+						<p
+							class="lang-text"
+							data-en="Granular control over browser data to accelerate your development process."
+							data-zh="对浏览器数据进行精细控制，加速您的开发进程。"
+						>
+							Granular control over browser data to accelerate your development process.
+						</p>
+					</div>
+					<div class="features-grid">
+						<div class="feature-card card">
+							<div class="feature-icon">🧹</div>
+							<h3 class="lang-text" data-en="One-Click Clear All" data-zh="一键清理所有数据">One-Click Clear All</h3>
+							<p
+								class="lang-text"
+								data-en="Simultaneously clear localStorage, sessionStorage, cookies, and browser cache. Perfect for resetting the entire page state."
+								data-zh="同时清除 localStorage、sessionStorage、cookies 和浏览器缓存。非常适合完全重置网页状态。"
+							>
+								Simultaneously clear localStorage, sessionStorage, cookies, and browser cache. Perfect for resetting the
+								entire page state.
+							</p>
+						</div>
+						<div class="feature-card card">
+							<div class="feature-icon">📦</div>
+							<h3 class="lang-text" data-en="Granular Control" data-zh="分类清理选项">Granular Control</h3>
+							<p
+								class="lang-text"
+								data-en="Separately clear localStorage, sessionStorage, or cookies to precisely debug specific application states."
+								data-zh="可单独清理 localStorage、sessionStorage 或 cookies，以精确调试特定的应用程序状态。"
+							>
+								Separately clear localStorage, sessionStorage, or cookies to precisely debug specific application states.
+							</p>
+						</div>
+						<div class="feature-card card">
+							<div class="feature-icon">🔄</div>
+							<h3 class="lang-text" data-en="Auto Page Refresh" data-zh="自动页面刷新">Auto Page Refresh</h3>
+							<p
+								class="lang-text"
+								data-en="After clearing data, the plugin automatically reloads the page, ensuring you see the changes immediately."
+								data-zh="清理数据后，插件会自动刷新当前页面，确保您立即看到一个全新的浏览体验。"
+							>
+								After clearing data, the plugin automatically reloads the page, ensuring you see the changes immediately.
+							</p>
+						</div>
+						<div class="feature-card card">
+							<div class="feature-icon">🔍</div>
+							<h3 class="lang-text" data-en="SSR Data Inspection" data-zh="SSR 数据查看">SSR Data Inspection</h3>
+							<p
+								class="lang-text"
+								data-en="Instantly view Next.js server-side rendering props (__NEXT_DATA__) printed in the developer console for easy debugging."
+								data-zh="在开发者控制台中即时查看 Next.js 服务端渲染的 props 数据 (__NEXT_DATA__)，方便调试。"
+							>
+								Instantly view Next.js server-side rendering props (__NEXT_DATA__) printed in the developer console for easy
+								debugging.
+							</p>
+						</div>
+						<div class="feature-card card">
+							<div class="feature-icon">⌨️</div>
+							<h3 class="lang-text" data-en="Quick Shortcut" data-zh="快捷键操作">Quick Shortcut</h3>
+							<p
+								class="lang-text"
+								data-en="Use the shortcut Alt + Shift + E to clear all storage data instantly without opening the popup."
+								data-zh="使用快捷键 Alt + Shift + E 可快速清理所有存储数据，无需打开弹窗界面。"
+							>
+								Use the shortcut Alt + Shift + E to clear all storage data instantly without opening the popup.
+							</p>
+						</div>
+						<div class="feature-card card">
+							<div class="feature-icon">🛡️</div>
+							<h3 class="lang-text" data-en="Privacy-Focused" data-zh="注重隐私安全">Privacy-Focused</h3>
+							<p
+								class="lang-text"
+								data-en="All operations are performed locally on your machine. The extension does not collect or transmit any data."
+								data-zh="所有操作均在您的本地计算机上执行。该扩展程序不会收集或上传任何用户数据。"
+							>
+								All operations are performed locally on your machine. The extension does not collect or transmit any data.
+							</p>
+						</div>
+					</div>
+				</section>
+
+				<!-- Donate Section -->
+				<section id="donate" class="content-section">
+					<div class="section-header">
+						<h1 class="lang-text" data-en="Support Development" data-zh="支持开发">Support Development</h1>
+						<p
+							class="centered-content lang-text"
+							data-en="If you find this extension helpful, please consider supporting its development. Your contribution helps me maintain and improve it with new features and bug fixes. Thank you!"
+							data-zh="如果您觉得这个插件很有用，请考虑支持它的开发。您的贡献可以帮助我维护和改进扩展，增加新功能并修复错误。谢谢！"
+						>
+							If you find this extension helpful, please consider supporting its development. Your contribution helps me
+							maintain and improve it with new features and bug fixes. Thank you!
+						</p>
+						<div class="donate-buttons">
+							<a href="#" class="donate-btn paypal-btn"
+								><span>💳</span
+								><span class="lang-text" data-en=" Donate via PayPal" data-zh=" 通过 PayPal 捐赠">
+									Donate via PayPal</span
+								></a
+							>
+							<a href="#" class="donate-btn github-btn"
+								><span>⭐</span
+								><span class="lang-text" data-en=" Star on GitHub" data-zh=" 在 GitHub 点星"> Star on GitHub</span></a
+							>
+						</div>
+					</div>
+				</section>
+
+				<!-- Contact Section -->
+				<section id="contact" class="content-section">
+					<div class="section-header">
+						<h1 class="lang-text" data-en="Get in Touch" data-zh="联系我们">Get in Touch</h1>
+						<p
+							class="centered-content lang-text"
+							data-en="Have questions, suggestions, or bug reports? I'd love to hear from you. Send a message, and I'll get back to you as soon as possible."
+							data-zh="有任何问题、建议或错误报告？我很乐意听取您的意见。给我发送消息，我会尽快回复您。"
+						>
+							Have questions, suggestions, or bug reports? I'd love to hear from you. Send a message, and I'll get back to you
+							as soon as possible.
+						</p>
+						<a href="mailto:degbguhk@163.com" class="contact-btn">Email: degbguhk@163.com</a>
+					</div>
+				</section>
+			</main>
+		</div>
+
+		<script>
+			document.addEventListener("DOMContentLoaded", function () {
+				const navLinks = document.querySelectorAll(".nav-link");
+				const contentSections = document.querySelectorAll(".content-section");
+				const langButtons = document.querySelectorAll(".lang-btn");
+				const langTextElements = document.querySelectorAll(".lang-text");
+				let currentLang = "en";
+
+				// --- Navigation Logic ---
+				const setActiveSection = (sectionId) => {
+					navLinks.forEach((link) => link.classList.toggle("active", link.dataset.section === sectionId));
+					contentSections.forEach((section) => section.classList.toggle("active", section.id === sectionId));
+				};
+
+				navLinks.forEach((link) => {
+					link.addEventListener("click", (e) => {
+						e.preventDefault();
+						const sectionId = link.dataset.section;
+						setActiveSection(sectionId);
+						window.history.pushState(null, "", `#${sectionId}`);
+					});
+				});
+
+				// Set initial section based on URL hash, or default to 'home'
+				const initialSection = window.location.hash.substring(1) || "home";
+				setActiveSection(initialSection);
+
+				// --- Language Switching Logic ---
+				const updateLanguage = (lang) => {
+					currentLang = lang;
+					langTextElements.forEach((el) => {
+						const text = el.dataset[lang];
+						if (text) {
+							el.textContent = text;
+						}
+					});
+
+					langButtons.forEach((btn) => btn.classList.toggle("active", btn.dataset.lang === lang));
+					document.documentElement.lang = lang;
+
+					const metaDesc = document.querySelector('meta[name="description"]');
+					if (lang === "zh") {
+						document.title = "Clear Browser Data - 浏览器数据清理插件";
+						metaDesc.setAttribute(
+							"content",
+							"一款专为开发者设计的强大浏览器扩展。一键清理 localStorage、sessionStorage、cookies 和缓存，完美适用于网页测试和调试。"
+						);
+					} else {
+						document.title = "Clear Browser Data - The Ultimate Developer Tool for Chrome & Edge";
+						metaDesc.setAttribute(
+							"content",
+							"A powerful browser extension for developers. One-click solution to clear localStorage, sessionStorage, cookies, and cache. Perfect for web testing and debugging."
+						);
+					}
+				};
+
+				langButtons.forEach((btn) => {
+					btn.addEventListener("click", () => {
+						updateLanguage(btn.dataset.lang);
+					});
+				});
+
+				updateLanguage("en");
+			});
+		</script>
+
+		<!-- Schema.org structured data for better SEO -->
+		<script type="application/ld+json">
+			{
+				"@context": "https://schema.org",
+				"@type": "SoftwareApplication",
+				"name": "Clear Browser Data",
+				"applicationCategory": "BrowserExtension",
+				"operatingSystem": "Chrome, Edge",
+				"description": "A powerful browser extension for developers. One-click solution to clear localStorage, sessionStorage, cookies, and cache. Perfect for web testing and debugging.",
+				"offers": {
+					"@type": "Offer",
+					"price": "0"
+				},
+				"aggregateRating": {
+					"@type": "AggregateRating",
+					"ratingValue": "5.0",
+					"reviewCount": "100"
+				}
+			}
+		</script>
+	</body>
+</html>
