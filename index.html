@@ -3,7 +3,7 @@
 	<head>
 		<!-- SEO & Metadata -->
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
 		<title>Clear Browser Data - The Ultimate Developer Tool for Chrome & Edge</title>
 		<meta
 			name="description"
@@ -14,10 +14,26 @@
 			content="Clear Browser Data, Chrome extension, Edge extension, developer tools, clear cache, clear cookies, localStorage, sessionStorage, web development, debugging"
 		/>
 		<meta name="author" content="Clear Browser Data" />
-		<link
-			rel="icon"
-			href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHJ4PSIxMiIgZmlsbD0idXJsKCNwYWludDBfbGluZWFyXzEzOF8yKSIvPjxwYXRoIGQ9Ik0yMC44NTcxIDQ2VjE4SDI2LjY1NzFWNDZIMjAuODU3MVpNMzQuMDk1MiA0NlYxOEgzOS44OTUyVjQ2SDM0LjA5NTJaTTI3LjQ3NjIgMzYuMTQyOVYyNy44NTcxSDQ4LjM4MVYzNi4xNDI5SDI3LjQ3NjJaIiBmaWxsPSJ3aGl0ZSIvPjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0icGFpbnQwX2xpbmVhcl8xMzBfMiIgeDE9IjMyIiB5MT0iMCIgeDI9IjMyIiB5Mj0iNjQiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj48c3RvcCBzdG9wLWNvbG9yPSIjNjM2NkYxIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjQTg1NUY3Ii8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PC9zdmc+"
-		/>
+
+		<!-- Favicon for all devices -->
+		<link rel="icon" type="image/png" sizes="16x16" href="./icon.png" />
+		<link rel="icon" type="image/png" sizes="32x32" href="./icon.png" />
+		<link rel="icon" type="image/png" sizes="48x48" href="./icon.png" />
+		<link rel="icon" type="image/png" sizes="64x64" href="./icon.png" />
+		<link rel="shortcut icon" href="./icon.png" />
+
+		<!-- Apple devices -->
+		<link rel="apple-touch-icon" href="./icon.png" />
+		<link rel="apple-touch-icon" sizes="152x152" href="./icon.png" />
+		<link rel="apple-touch-icon" sizes="180x180" href="./icon.png" />
+
+		<!-- Android devices -->
+		<link rel="icon" type="image/png" sizes="192x192" href="./icon.png" />
+		<link rel="icon" type="image/png" sizes="512x512" href="./icon.png" />
+
+		<!-- Windows 8/10 tiles -->
+		<meta name="msapplication-TileImage" content="./icon.png" />
+		<meta name="msapplication-TileColor" content="#6366f1" />
 
 		<!-- Open Graph Metadata for Social Sharing -->
 		<meta property="og:title" content="Clear Browser Data - Developer Extension" />
@@ -25,8 +41,11 @@
 			property="og:description"
 			content="One-click solution to clear localStorage, sessionStorage, cookies, and cache. Perfect for web developers and testers on Chrome and Edge."
 		/>
-		<meta property="og:image" content="https://i.imgur.com/your-promo-image.png" />
-		<!-- Replace with a link to your promo image -->
+		<meta property="og:image" content="./icon.png" />
+		<meta property="og:image:type" content="image/png" />
+		<meta property="og:image:width" content="512" />
+		<meta property="og:image:height" content="512" />
+		<!-- Social media preview image -->
 
 		<!-- Google Fonts -->
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -54,6 +73,11 @@
 				padding: 0;
 				box-sizing: border-box;
 			}
+			html,
+			body {
+				width: 100%;
+				overflow-x: hidden;
+			}
 			html {
 				scroll-behavior: smooth;
 			}
@@ -63,43 +87,180 @@
 				color: var(--text-primary);
 				-webkit-font-smoothing: antialiased;
 				-moz-osx-font-smoothing: grayscale;
+				-webkit-tap-highlight-color: rgba(102, 102, 255, 0.2);
+				-webkit-touch-callout: none;
+				-webkit-text-size-adjust: 100%;
 			}
 			.container {
 				display: flex;
 				min-height: 100vh;
+				width: 100%;
 			}
 
 			/* --- Sidebar --- */
 			.sidebar {
 				width: 260px;
 				background-color: var(--dark-bg);
-				padding: 2rem 1.5rem;
+				padding: 1.5rem;
 				display: flex;
 				flex-direction: column;
 				flex-shrink: 0;
 				position: fixed;
 				height: 100%;
 				z-index: 10;
+				left: 0;
+				top: 0;
 			}
 			.logo {
 				display: flex;
 				align-items: center;
 				gap: 0.75rem;
-				margin-bottom: 3rem;
+				margin-bottom: 2rem;
+				padding-bottom: 1rem;
+				border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 			}
 			.logo-icon {
 				width: 40px;
 				height: 40px;
-				background: linear-gradient(135deg, var(--primary-start), var(--primary-end));
 				border-radius: var(--radius-md);
-				display: flex;
-				align-items: center;
-				justify-content: center;
+				overflow: hidden;
+				flex-shrink: 0;
+			}
+			.logo-icon img {
+				width: 100%;
+				height: 100%;
+				object-fit: contain;
 			}
 			.logo h1 {
 				color: white;
 				font-size: 1.25rem;
 				font-weight: 700;
+				line-height: 1.3;
+			}
+			.logo-clickable {
+				cursor: pointer;
+				transition: var(--transition);
+			}
+			.logo-clickable:hover {
+				opacity: 0.8;
+			}
+			/* 移动端汉堡菜单 */
+			.mobile-header {
+				display: none;
+			}
+			.menu-toggle {
+				display: none;
+				flex-direction: column;
+				background: transparent;
+				border: none;
+				cursor: pointer;
+				padding: 0.5rem;
+				border-radius: 6px;
+				transition: var(--transition);
+			}
+			.menu-toggle:hover {
+				background-color: rgba(255, 255, 255, 0.1);
+			}
+			.menu-toggle span {
+				width: 20px;
+				height: 2px;
+				background-color: white;
+				margin: 2px 0;
+				transition: var(--transition);
+				border-radius: 1px;
+			}
+			.menu-toggle.active span:nth-child(1) {
+				transform: rotate(45deg) translate(5px, 5px);
+			}
+			.menu-toggle.active span:nth-child(2) {
+				opacity: 0;
+			}
+			.menu-toggle.active span:nth-child(3) {
+				transform: rotate(-45deg) translate(7px, -6px);
+			}
+			.mobile-nav-overlay {
+				display: none;
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100vw;
+				height: 100vh;
+				background-color: rgba(0, 0, 0, 0.5);
+				z-index: 999;
+			}
+			.mobile-nav-menu {
+				display: none;
+				position: fixed;
+				top: 0;
+				right: 0;
+				width: 280px;
+				height: 100vh;
+				background-color: var(--dark-bg);
+				padding: 2rem 1.5rem;
+				z-index: 1000;
+				transform: translateX(100%);
+				transition: transform 0.3s ease;
+			}
+			.mobile-nav-menu.active {
+				transform: translateX(0);
+			}
+			.mobile-nav-menu .logo {
+				margin-bottom: 2rem;
+				border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+				padding-bottom: 1.5rem;
+			}
+			.mobile-nav-menu .nav-link {
+				display: flex;
+				align-items: center;
+				padding: 1rem;
+				margin-bottom: 0.5rem;
+				color: #d1d5db;
+				text-decoration: none;
+				border-radius: 8px;
+				font-weight: 500;
+				transition: var(--transition);
+			}
+			.mobile-nav-menu .nav-link:hover {
+				background-color: rgba(255, 255, 255, 0.05);
+				color: white;
+			}
+			.mobile-nav-menu .nav-link.active {
+				background: var(--primary-start);
+				color: white;
+			}
+			.mobile-nav-menu .nav-link-icon {
+				margin-right: 0.75rem;
+				width: 20px;
+				height: 20px;
+			}
+			.mobile-nav-menu .language-switcher {
+				margin-top: 2rem;
+				padding-top: 0;
+				border-top: 1px solid rgba(255, 255, 255, 0.1);
+			}
+			.mobile-nav-close {
+				position: absolute;
+				top: calc(2rem + 0.5rem); /* 补偿logo区域的垂直中心 */
+				right: 1.5rem;
+				background: transparent;
+				border: none;
+				color: #d1d5db;
+				font-size: 1.5rem;
+				cursor: pointer;
+				padding: 0;
+				border-radius: 6px;
+				transition: var(--transition);
+				width: 40px;
+				height: 40px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				z-index: 1;
+				transform: translateY(-50%); /* 垂直居中对齐 */
+			}
+			.mobile-nav-close:hover {
+				background-color: rgba(255, 255, 255, 0.1);
+				color: white;
 			}
 			.nav-menu {
 				list-style: none;
@@ -115,6 +276,8 @@
 				border-radius: 8px;
 				font-weight: 500;
 				transition: var(--transition);
+				min-height: 44px; /* 触摸目标最小高度 */
+				touch-action: manipulation;
 			}
 			.nav-link:hover {
 				background-color: rgba(255, 255, 255, 0.05);
@@ -146,6 +309,8 @@
 				border-radius: 50px;
 				cursor: pointer;
 				transition: var(--transition);
+				min-height: 44px; /* 触摸目标最小高度 */
+				touch-action: manipulation;
 			}
 			.lang-btn.active {
 				background: var(--primary-start);
@@ -159,13 +324,17 @@
 				padding: 4rem 5rem;
 				overflow-y: auto;
 				margin-left: 260px; /* Offset for fixed sidebar */
+				width: calc(100% - 260px);
+				min-width: 0; /* 防止flex item收缩 */
 			}
 			.content-section {
 				display: none;
 				animation: fadeIn 0.5s ease-out;
+				width: 100%;
 			}
 			.content-section.active {
 				display: block;
+				width: 100%;
 			}
 			@keyframes fadeIn {
 				from {
@@ -186,6 +355,7 @@
 				font-weight: 800;
 				margin-bottom: 1rem;
 				background: linear-gradient(135deg, var(--primary-start), var(--primary-end));
+				background-clip: text;
 				-webkit-background-clip: text;
 				-webkit-text-fill-color: transparent;
 			}
@@ -213,6 +383,7 @@
 				font-weight: 800;
 				line-height: 1.2;
 				background: linear-gradient(135deg, var(--primary-start), var(--primary-end));
+				background-clip: text;
 				-webkit-background-clip: text;
 				-webkit-text-fill-color: transparent;
 				margin-bottom: 1.5rem;
@@ -312,6 +483,8 @@
 				color: white;
 				font-weight: 600;
 				transition: var(--transition);
+				min-height: 48px; /* 触摸目标最小高度 */
+				touch-action: manipulation;
 			}
 			.chrome-btn {
 				background-color: #4285f4;
@@ -375,13 +548,49 @@
 				font-weight: 600;
 				box-shadow: var(--shadow-md);
 				transition: var(--transition);
+				min-height: 48px; /* 触摸目标最小高度 */
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				touch-action: manipulation;
 			}
 			.donate-btn:hover {
 				transform: translateY(-3px);
 				box-shadow: var(--shadow-lg);
 			}
-			.paypal-btn {
-				background-color: #0070ba;
+			.qrcode-container {
+				display: flex;
+				justify-content: center;
+				gap: 2rem;
+				margin-top: 2rem;
+			}
+			.qrcode-item {
+				text-align: center;
+			}
+			.qrcode-img {
+				max-width: 200px;
+				width: 100%;
+				height: auto;
+				border-radius: var(--radius-md);
+				box-shadow: var(--shadow-lg);
+				transition: var(--transition);
+				border: 2px solid var(--border-color);
+				object-fit: contain;
+			}
+			.qrcode-img:hover {
+				transform: translateY(-5px);
+				box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+			}
+			.qrcode-label {
+				margin-top: 1rem;
+				font-size: 1.125rem;
+				font-weight: 600;
+				color: var(--text-primary);
+			}
+			.qrcode-desc {
+				margin-top: 0.5rem;
+				font-size: 0.9rem;
+				color: var(--text-secondary);
 			}
 			.github-btn {
 				background-color: #24292e;
@@ -390,43 +599,56 @@
 			/* --- Responsive Design --- */
 			@media (max-width: 1200px) {
 				.main-content {
-					padding: 3rem;
+					padding: 3rem 2rem;
 				}
 				.home-layout {
 					flex-direction: column-reverse;
+					gap: 2rem;
+				}
+				.download-cards {
+					grid-template-columns: 1fr;
+					max-width: 600px;
 				}
 			}
+
 			@media (max-width: 1024px) {
+				.container {
+					flex-direction: column;
+					width: 100vw;
+				}
 				.sidebar {
-					position: static;
-					width: 100%;
-					height: auto;
-					flex-direction: row;
+					display: none; /* 隐藏桌面端侧边栏 */
+				}
+				.mobile-header {
+					display: flex;
+					justify-content: space-between;
 					align-items: center;
+					background-color: var(--dark-bg);
 					padding: 1rem 1.5rem;
 					box-shadow: var(--shadow-md);
+					position: sticky;
+					top: 0;
+					z-index: 100;
 				}
-				.logo {
+				.mobile-header .logo {
 					margin-bottom: 0;
+					border-bottom: none;
+					padding-bottom: 0;
 				}
-				.nav-menu {
+				.menu-toggle {
 					display: flex;
-					flex-grow: 1;
-					justify-content: center;
-					gap: 0.5rem;
 				}
-				.nav-link {
-					margin-bottom: 0;
-				}
-				.nav-link span {
-					display: none;
-				} /* Hide text on smaller nav */
-				.language-switcher {
-					margin-left: auto;
+				.mobile-nav-overlay.active,
+				.mobile-nav-menu {
+					display: block;
 				}
 				.main-content {
 					margin-left: 0;
-					padding: 2rem;
+					padding: 2rem 1.5rem;
+					width: 100%;
+					flex: 1;
+					min-height: calc(100vh - 80px); /* 减去sidebar高度 */
+					overflow-x: hidden;
 				}
 				#home .main-title {
 					font-size: 2.5rem;
@@ -437,43 +659,370 @@
 				.section-header h1 {
 					font-size: 2rem;
 				}
-			}
-			@media (max-width: 768px) {
-				.nav-link span {
-					display: none;
+				.features-grid {
+					grid-template-columns: 1fr;
 				}
-				.logo h1 {
-					display: none;
+			}
+
+			@media (max-width: 768px) {
+				.container {
+					width: 100vw;
+					overflow-x: hidden;
+				}
+				.mobile-header {
+					padding: 1rem;
+				}
+				.mobile-nav-menu {
+					width: 100vw;
+					padding: 1.5rem;
+				}
+				.mobile-nav-close {
+					top: calc(1.75rem + 0.5rem);
+					right: 1rem;
+				}
+				.main-content {
+					padding: 1.5rem 1rem;
+					width: 100vw;
+					margin-left: 0;
+					overflow-x: hidden;
+				}
+				#home .main-title {
+					font-size: 2rem;
+					line-height: 1.3;
+				}
+				#home .subtitle {
+					font-size: 1rem;
+					margin-bottom: 2.5rem;
+				}
+				.section-header {
+					margin-bottom: 2rem;
+				}
+				.section-header h1 {
+					font-size: 1.75rem;
+					margin-bottom: 0.75rem;
+				}
+				.section-header p {
+					font-size: 1rem;
+				}
+				.home-features {
+					gap: 1rem;
+				}
+				.home-feature-card {
+					gap: 0.75rem;
+				}
+				.home-feature-icon {
+					width: 36px;
+					height: 36px;
+					font-size: 1.1rem;
+				}
+				.home-feature-text h3 {
+					font-size: 1rem;
+				}
+				.home-feature-text p {
+					font-size: 0.85rem;
+				}
+				.download-title {
+					font-size: 1.25rem;
+					margin: 2.5rem 0 1.5rem 0;
+				}
+				.download-cards {
+					gap: 1.5rem;
+				}
+				.download-card {
+					padding: 1.5rem;
+				}
+				.browser-logo {
+					height: 48px;
+					margin-bottom: 1rem;
+				}
+				.download-card h3 {
+					font-size: 1.125rem;
+				}
+				.download-card p {
+					font-size: 0.85rem;
+					margin-bottom: 1rem;
+				}
+				.feature-card {
+					padding: 1.5rem;
+				}
+				.feature-icon {
+					width: 44px;
+					height: 44px;
+					font-size: 1.25rem;
+					margin-bottom: 1rem;
+				}
+				.feature-card h3 {
+					font-size: 1.125rem;
+					margin-bottom: 0.5rem;
+				}
+				.feature-card p {
+					font-size: 0.9rem;
+					line-height: 1.5;
+				}
+				.qrcode-container {
+					flex-direction: column;
+					align-items: center;
+					gap: 1.5rem;
+					margin-top: 1.5rem;
+				}
+				.qrcode-img {
+					max-width: 180px;
+					width: 100%;
+					height: auto;
+				}
+				.qrcode-label {
+					font-size: 1rem;
+					margin-top: 0.75rem;
+				}
+				.qrcode-desc {
+					font-size: 0.85rem;
+				}
+				.donate-buttons {
+					margin-top: 1.5rem;
+				}
+				.donate-btn {
+					padding: 0.75rem 1.5rem;
+					font-size: 0.9rem;
+				}
+			}
+
+			@media (max-width: 480px) {
+				.mobile-header .logo h1 {
+					font-size: 1.1rem;
+				}
+				.mobile-nav-menu {
+					width: 100vw;
+					padding: 1rem;
+				}
+				.mobile-nav-close {
+					top: calc(1.5rem + 0.4rem);
+					right: 1rem;
+				}
+				.main-content {
+					padding: 1rem 0.75rem;
+					width: 100vw;
+					overflow-x: hidden;
+				}
+				#home .main-title {
+					font-size: 1.75rem;
+					margin-bottom: 1rem;
+				}
+				#home .subtitle {
+					font-size: 0.95rem;
+					margin-bottom: 2rem;
+				}
+				.section-header h1 {
+					font-size: 1.5rem;
+				}
+				.section-header p {
+					font-size: 0.9rem;
+				}
+				.home-feature-text h3 {
+					font-size: 0.95rem;
+				}
+				.home-feature-text p {
+					font-size: 0.8rem;
+				}
+				.download-cards {
+					gap: 1rem;
+				}
+				.download-card {
+					padding: 1.25rem;
+				}
+				.browser-logo {
+					height: 40px;
+				}
+				.download-card h3 {
+					font-size: 1rem;
+				}
+				.download-card p {
+					font-size: 0.8rem;
+				}
+				.download-btn {
+					padding: 0.625rem 1rem;
+					font-size: 0.875rem;
+				}
+				.features-grid {
+					gap: 1rem;
+				}
+				.feature-card {
+					padding: 1.25rem;
+				}
+				.feature-icon {
+					width: 40px;
+					height: 40px;
+					font-size: 1.125rem;
+				}
+				.feature-card h3 {
+					font-size: 1rem;
+				}
+				.feature-card p {
+					font-size: 0.85rem;
+				}
+				.qrcode-container {
+					gap: 1.25rem;
+				}
+				.qrcode-img {
+					max-width: 160px;
+					width: 100%;
+					height: auto;
+				}
+				.qrcode-label {
+					font-size: 0.95rem;
+				}
+				.qrcode-desc {
+					font-size: 0.8rem;
+				}
+				.donate-btn {
+					padding: 0.625rem 1.25rem;
+					font-size: 0.85rem;
+				}
+				.centered-content {
+					padding: 0 0.5rem;
+				}
+			}
+
+			@media (max-width: 320px) {
+				.main-content {
+					padding: 0.75rem 0.5rem;
+					width: 100vw;
+					overflow-x: hidden;
+				}
+				#home .main-title {
+					font-size: 1.5rem;
+				}
+				.mobile-header {
+					padding: 0.75rem;
+				}
+				.mobile-header .logo h1 {
+					font-size: 1rem;
+				}
+				.mobile-nav-menu {
+					padding: 1rem 0.75rem;
+				}
+				.mobile-nav-close {
+					top: calc(1.25rem + 0.35rem);
+					right: 0.75rem;
+				}
+				.qrcode-img {
+					max-width: 140px;
+					width: 100%;
+					height: auto;
 				}
 			}
 		</style>
 	</head>
 	<body>
 		<div class="container">
-			<!-- Sidebar Navigation -->
-			<nav class="sidebar">
-				<div class="logo">
+			<!-- Mobile Header -->
+			<header class="mobile-header">
+				<div class="logo logo-clickable" data-href="/">
 					<div class="logo-icon">
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							width="20"
-							height="20"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="3"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-						>
-							<path d="M11 12H3" />
-							<path d="M16 6H3" />
-							<path d="M16 18H3" />
-							<path d="M21 12h-2.5m0 0a2.5 2.5 0 1 1-5 0 2.5 2.5 0 1 1 5 0Z" />
-						</svg>
+						<img src="./icon.png" alt="Clear Browser Data" />
 					</div>
 					<h1>Clear Browser Data</h1>
 				</div>
+				<button class="menu-toggle" id="menu-toggle">
+					<span></span>
+					<span></span>
+					<span></span>
+				</button>
+			</header>
 
+			<!-- Mobile Navigation Overlay -->
+			<div class="mobile-nav-overlay" id="mobile-nav-overlay"></div>
+
+			<!-- Mobile Navigation Menu -->
+			<nav class="mobile-nav-menu" id="mobile-nav-menu">
+				<button class="mobile-nav-close" id="mobile-nav-close" aria-label="关闭菜单">
+					<svg
+						width="20"
+						height="20"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					>
+						<path d="M18 6L6 18"></path>
+						<path d="M6 6l12 12"></path>
+					</svg>
+				</button>
+				<div class="logo">
+					<div class="logo-icon">
+						<img src="./icon.png" alt="Clear Browser Data" />
+					</div>
+					<h1>Clear Browser Data</h1>
+				</div>
+				<ul class="nav-menu">
+					<li>
+						<a href="#home" class="nav-link mobile-nav-link active" data-section="home">
+							<svg class="nav-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+								></path>
+							</svg>
+							<span class="lang-text" data-en="Home" data-zh="首页">Home</span>
+						</a>
+					</li>
+					<li>
+						<a href="#features" class="nav-link mobile-nav-link" data-section="features">
+							<svg class="nav-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l-3 3m0 0l-3-3m3 3v12M9 3H5a2 2 0 00-2 2v4m14-4h-4a2 2 0 00-2 2v4m0 10v-4a2 2 0 00-2-2h-4a2 2 0 00-2 2v4m14 0h-4a2 2 0 01-2-2v-4"
+								></path>
+							</svg>
+							<span class="lang-text" data-en="Features" data-zh="功能特性">Features</span>
+						</a>
+					</li>
+					<li>
+						<a href="#donate" class="nav-link mobile-nav-link" data-section="donate">
+							<svg class="nav-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+								></path>
+							</svg>
+							<span class="lang-text" data-en="Donate" data-zh="赞助支持">Donate</span>
+						</a>
+					</li>
+					<li>
+						<a href="#contact" class="nav-link mobile-nav-link" data-section="contact">
+							<svg class="nav-link-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+								></path>
+							</svg>
+							<span class="lang-text" data-en="Contact" data-zh="联系我们">Contact</span>
+						</a>
+					</li>
+				</ul>
+				<div class="language-switcher">
+					<button class="lang-btn active mobile-lang-btn" data-lang="en">EN</button>
+					<button class="lang-btn mobile-lang-btn" data-lang="zh">中文</button>
+				</div>
+			</nav>
+
+			<!-- Desktop Sidebar Navigation -->
+			<nav class="sidebar">
+				<div class="logo logo-clickable" data-href="/">
+					<div class="logo-icon">
+						<img src="./icon.png" alt="Clear Browser Data" />
+					</div>
+					<h1>Clear Browser Data</h1>
+				</div>
 				<ul class="nav-menu">
 					<li>
 						<a href="#home" class="nav-link active" data-section="home"
@@ -601,11 +1150,7 @@
 							</div>
 						</div>
 						<div class="home-image-wrapper">
-							<img
-								src="https://imgur.la/images/2025/08/16/clear.png"
-								alt="Clear Browser Data extension interface"
-								class="plugin-image"
-							/>
+							<img src="./clear-browser-data.png" alt="Clear Browser Data extension interface" class="plugin-image" />
 						</div>
 					</div>
 
@@ -758,14 +1303,24 @@
 							If you find this extension helpful, please consider supporting its development. Your contribution helps me
 							maintain and improve it with new features and bug fixes. Thank you!
 						</p>
-						<div class="donate-buttons">
-							<a href="#" class="donate-btn paypal-btn"
-								><span>💳</span
-								><span class="lang-text" data-en=" Donate via PayPal" data-zh=" 通过 PayPal 捐赠">
-									Donate via PayPal</span
-								></a
-							>
-							<a href="#" class="donate-btn github-btn"
+						<div class="qrcode-container">
+							<div class="qrcode-item">
+								<img src="./alipay.jpg" alt="支付宝收款码" class="qrcode-img" />
+								<div class="qrcode-label lang-text" data-en="Alipay" data-zh="支付宝">支付宝</div>
+								<div class="qrcode-desc lang-text" data-en="Scan to donate via Alipay" data-zh="扫码使用支付宝赞助">
+									扫码使用支付宝赞助
+								</div>
+							</div>
+							<div class="qrcode-item">
+								<img src="./weixinpay.png" alt="微信收款码" class="qrcode-img" />
+								<div class="qrcode-label lang-text" data-en="WeChat Pay" data-zh="微信支付">微信支付</div>
+								<div class="qrcode-desc lang-text" data-en="Scan to donate via WeChat Pay" data-zh="扫码使用微信支付赞助">
+									扫码使用微信支付赞助
+								</div>
+							</div>
+						</div>
+						<div class="donate-buttons" style="margin-top: 2rem">
+							<a href="https://github.com/degb/clear-browser-guide" class="donate-btn github-btn"
 								><span>⭐</span
 								><span class="lang-text" data-en=" Star on GitHub" data-zh=" 在 GitHub 点星"> Star on GitHub</span></a
 							>
@@ -799,10 +1354,82 @@
 				const langTextElements = document.querySelectorAll(".lang-text");
 				let currentLang = "en";
 
+				// Mobile menu elements
+				const menuToggle = document.getElementById("menu-toggle");
+				const mobileNavOverlay = document.getElementById("mobile-nav-overlay");
+				const mobileNavMenu = document.getElementById("mobile-nav-menu");
+				const mobileNavClose = document.getElementById("mobile-nav-close");
+				const mobileNavLinks = document.querySelectorAll(".mobile-nav-link");
+				const logoClickables = document.querySelectorAll(".logo-clickable");
+
+				// --- Mobile Menu Logic ---
+				const toggleMobileMenu = () => {
+					const isActive = mobileNavMenu.classList.contains("active");
+
+					if (isActive) {
+						closeMobileMenu();
+					} else {
+						openMobileMenu();
+					}
+				};
+
+				const openMobileMenu = () => {
+					menuToggle.classList.add("active");
+					mobileNavOverlay.classList.add("active");
+					mobileNavMenu.classList.add("active");
+					document.body.style.overflow = "hidden";
+				};
+
+				const closeMobileMenu = () => {
+					menuToggle.classList.remove("active");
+					mobileNavOverlay.classList.remove("active");
+					mobileNavMenu.classList.remove("active");
+					document.body.style.overflow = "";
+				};
+
+				// Menu toggle button click
+				if (menuToggle) {
+					menuToggle.addEventListener("click", toggleMobileMenu);
+				}
+
+				// Overlay click to close menu
+				if (mobileNavOverlay) {
+					mobileNavOverlay.addEventListener("click", closeMobileMenu);
+				}
+
+				// Close button click
+				if (mobileNavClose) {
+					mobileNavClose.addEventListener("click", closeMobileMenu);
+				}
+
+				// Logo click to go to home
+				logoClickables.forEach((logo) => {
+					logo.addEventListener("click", (e) => {
+						const href = logo.dataset.href;
+						if (href) {
+							window.location.href = href;
+						}
+					});
+				});
+
+				// Mobile nav links click
+				mobileNavLinks.forEach((link) => {
+					link.addEventListener("click", (e) => {
+						e.preventDefault();
+						const sectionId = link.dataset.section;
+						setActiveSection(sectionId);
+						window.history.pushState(null, "", `#${sectionId}`);
+						closeMobileMenu(); // Close menu after navigation
+					});
+				});
+
 				// --- Navigation Logic ---
 				const setActiveSection = (sectionId) => {
 					navLinks.forEach((link) => link.classList.toggle("active", link.dataset.section === sectionId));
 					contentSections.forEach((section) => section.classList.toggle("active", section.id === sectionId));
+
+					// Update mobile nav links active state
+					mobileNavLinks.forEach((link) => link.classList.toggle("active", link.dataset.section === sectionId));
 				};
 
 				navLinks.forEach((link) => {
@@ -850,6 +1477,10 @@
 				langButtons.forEach((btn) => {
 					btn.addEventListener("click", () => {
 						updateLanguage(btn.dataset.lang);
+						// Close mobile menu if language is switched from mobile menu
+						if (btn.classList.contains("mobile-lang-btn")) {
+							closeMobileMenu();
+						}
 					});
 				});
 
